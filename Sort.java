@@ -68,7 +68,29 @@ public class Sort
 	 */
 	private static <T extends Comparable<T>> void mergesort(IndexedUnsortedList<T> list)
 	{
-		// TODO: Implement recursive mergesort algorithm 
+		mergesort(list, 0, list.size());
+	}
+
+	/**
+	 * This does this To Do
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @param start
+	 * @param end
+	 */
+	private static <T extends Comparable<T>> void mergesort(IndexedUnsortedList<T> list, int start, int end) {
+		if (list.size() < 2) {
+			return;
+		}
+
+		// First, find the midpoint, [A, B, C, D, E] starts at index 0, A, and ends at index 4, E, midpoint is 2, or C
+		int midPoint = (start + end) / 2;
+
+		// Split into the starting, first half, and the last, second half
+		IndexedUnsortedList<T> firstHalf;
+		IndexedUnsortedList<T> secondHalf;
+
 	}
 		
 	/**
@@ -87,5 +109,19 @@ public class Sort
 	private static <T> void mergesort(IndexedUnsortedList<T> list, Comparator<T> c)
 	{
 		// TODO: Implement recursive mergesort algorithm using Comparator
+	}
+
+	/**
+	 * This does this To Do
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @param firstHalf
+	 * @param secondHalf
+	 * @param start
+	 * @param end
+	 */
+	private static <T extends Comparable<T>> void merge(IndexedUnsortedList<T> list, IndexedUnsortedList firstHalf, IndexedUnsortedList secondHalf) {
+		
 	}
 }
