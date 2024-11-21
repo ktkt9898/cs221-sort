@@ -75,45 +75,26 @@ public class Sort
 		}
 
 		// Else its the recursive case
-		// Choose a pivot/partition element
+		// Split the list into two halves until only one element remains
+		int midPoint = list.size() / 2;
 
-		// Don't actually choose the first element
-		T pivot = list.removeFirst(); // Take the first element as the pivot point
+		// Create two new lists to store the left and right side
+		IndexedUnsortedList<T> firstHalfList = newList();
+		IndexedUnsortedList<T> secondHalfList = newList();
 
-		// Compare elements to pivot, Smaller to the left, Larger to the right
-		IndexedUnsortedList<T> leftList = newList();
-		IndexedUnsortedList<T> rightList = newList();
-
-		// Gather all the elements from the original list
-		while (!list.isEmpty()) {
-			T element = list.removeFirst();
-
-			// compareTo -1 means smaller, 1 means larger
-			if (element.compareTo(pivot) < 0) {
-				leftList.add(element);
-			}
-			else {
-				rightList.add(element);
-			}
+		// Add the elements in the first half
+		for (int i = 0; i < midPoint; i++) {
+			firstHalfList.add(list.removeFirst());
 		}
 
-		// Recursively quickSort the left and right side
-		quicksort(leftList);
-		quicksort(rightList);
-
-		// Reassemble the list
-		// Take the left list values first
-		while (!leftList.isEmpty()) {
-			list.add(leftList.removeFirst());
+		// Add the elements in the second half
+		for (int i = midPoint; i < list.size(); i++) {
+			secondHalfList.add(list.removeFirst());
 		}
 
-		// Now the pivot
-		list.add(pivot);
-
-		// Now the right list
-		while (!rightList.isEmpty()) {
-			list.add(rightList.removeFirst());
-		}
+		// Recursively call mergesort on the two halves until only one element remains.
+		mergesort(firstHalfList);
+		mergesort(secondHalfList);
 	}
 		
 	/**
@@ -131,51 +112,6 @@ public class Sort
 	 */
 	private static <T> void mergesort(IndexedUnsortedList<T> list, Comparator<T> c)
 	{
-		// Base case if list is empty or has one element
-		// Stack will then reconstruct the entire list
-		if (list.size() < 2) {
-			return;
-		}
-
-		// Else its the recursive case
-		// Choose a pivot/partition element
-
-		// Don't actually choose the first element
-		T pivot = list.removeFirst(); // Take the first element as the pivot point
-
-		// Compare elements to pivot, Smaller to the left, Larger to the right
-		IndexedUnsortedList<T> leftList = newList();
-		IndexedUnsortedList<T> rightList = newList();
-
-		// Gather all the elements from the original list
-		while (!list.isEmpty()) {
-			T element = list.removeFirst();
-
-			// Now using the comparator, take compare the element against the pivot
-			if (c.compare(element, pivot) < 0) {
-				leftList.add(element);
-			}
-			else {
-				rightList.add(element);
-			}
-		}
-
-		// Recursively quickSort the left and right side
-		quicksort(leftList, c);
-		quicksort(rightList, c);
-
-		// Reassemble the list
-		// Take the left list values first
-		while (!leftList.isEmpty()) {
-			list.add(leftList.removeFirst());
-		}
-
-		// Now the pivot
-		list.add(pivot);
-
-		// Now the right list
-		while (!rightList.isEmpty()) {
-			list.add(rightList.removeFirst());
-		}
+		// TO DO
 	}
 }
