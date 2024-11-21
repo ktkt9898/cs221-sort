@@ -76,25 +76,53 @@ public class Sort
 
 		// Else its the recursive case
 		// Split the list into two halves until only one element remains
+		int listSize = list.size();
 		int midPoint = list.size() / 2;
 
 		// Create two new lists to store the left and right side
-		IndexedUnsortedList<T> firstHalfList = newList();
-		IndexedUnsortedList<T> secondHalfList = newList();
+		IndexedUnsortedList<T> leftList = newList();
+		IndexedUnsortedList<T> rightList = newList();
 
-		// Add the elements in the first half
+		// Add the elements in the left half
 		for (int i = 0; i < midPoint; i++) {
-			firstHalfList.add(list.removeFirst());
+			leftList.add(list.removeFirst());
 		}
 
-		// Add the elements in the second half
-		for (int i = midPoint; i < list.size(); i++) {
-			secondHalfList.add(list.removeFirst());
+		// Add the elements in the right half
+		for (int i = midPoint; i < listSize; i++) {
+			rightList.add(list.removeFirst());
 		}
 
-		// Recursively call mergesort on the two halves until only one element remains.
-		mergesort(firstHalfList);
-		mergesort(secondHalfList);
+		// Recursively call mergesort on the two halves until only one element remains (or two in one list
+		// for an odd midpoint)
+		mergesort(leftList);
+		mergesort(rightList);
+
+		// Use compareTo to compare the elements in the firstHalfLife
+		while (!leftList.isEmpty() || !rightList.isEmpty()) {
+			// In the event that the left list is empty but later need to compare the right list
+			if (leftList.isEmpty()) {
+				list.add(rightList.removeFirst());
+			}
+
+			// In the event the right list is empty but later need to compare the left list
+			else if (rightList.isEmpty()) {
+				list.add(leftList.removeFirst());
+			}
+
+			else {
+				// If the first element in the left list is less than the first element in the right list,
+				// add the first element in the left list
+				if (leftList.first().compareTo(rightList.first()) < 0) {
+					list.add(leftList.removeFirst());
+				}
+				// Else the first element in the right list is less than the first element in the left list
+				// add the first element in the right list
+				else {
+					list.add(rightList.removeFirst());
+				}
+			}
+		}
 	}
 		
 	/**
