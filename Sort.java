@@ -68,29 +68,52 @@ public class Sort
 	 */
 	private static <T extends Comparable<T>> void mergesort(IndexedUnsortedList<T> list)
 	{
-		mergesort(list, 0, list.size());
-	}
-
-	/**
-	 * This does this To Do
-	 * 
-	 * @param <T>
-	 * @param list
-	 * @param start
-	 * @param end
-	 */
-	private static <T extends Comparable<T>> void mergesort(IndexedUnsortedList<T> list, int start, int end) {
+		// Base case if list is empty or has one element
+		// Stack will then reconstruct the entire list
 		if (list.size() < 2) {
 			return;
 		}
 
-		// First, find the midpoint, [A, B, C, D, E] starts at index 0, A, and ends at index 4, E, midpoint is 2, or C
-		int midPoint = (start + end) / 2;
+		// Else its the recursive case
+		// Choose a pivot/partition element
 
-		// Split into the starting, first half, and the last, second half
-		IndexedUnsortedList<T> firstHalf;
-		IndexedUnsortedList<T> secondHalf;
+		// Don't actually choose the first element
+		T pivot = list.removeFirst(); // Take the first element as the pivot point
 
+		// Compare elements to pivot, Smaller to the left, Larger to the right
+		IndexedUnsortedList<T> leftList = newList();
+		IndexedUnsortedList<T> rightList = newList();
+
+		// Gather all the elements from the original list
+		while (!list.isEmpty()) {
+			T element = list.removeFirst();
+
+			// compareTo -1 means smaller, 1 means larger
+			if (element.compareTo(pivot) < 0) {
+				leftList.add(element);
+			}
+			else {
+				rightList.add(element);
+			}
+		}
+
+		// Recursively quickSort the left and right side
+		quicksort(leftList);
+		quicksort(rightList);
+
+		// Reassemble the list
+		// Take the left list values first
+		while (!leftList.isEmpty()) {
+			list.add(leftList.removeFirst());
+		}
+
+		// Now the pivot
+		list.add(pivot);
+
+		// Now the right list
+		while (!rightList.isEmpty()) {
+			list.add(rightList.removeFirst());
+		}
 	}
 		
 	/**
@@ -108,20 +131,51 @@ public class Sort
 	 */
 	private static <T> void mergesort(IndexedUnsortedList<T> list, Comparator<T> c)
 	{
-		// TODO: Implement recursive mergesort algorithm using Comparator
-	}
+		// Base case if list is empty or has one element
+		// Stack will then reconstruct the entire list
+		if (list.size() < 2) {
+			return;
+		}
 
-	/**
-	 * This does this To Do
-	 * 
-	 * @param <T>
-	 * @param list
-	 * @param firstHalf
-	 * @param secondHalf
-	 * @param start
-	 * @param end
-	 */
-	private static <T extends Comparable<T>> void merge(IndexedUnsortedList<T> list, IndexedUnsortedList firstHalf, IndexedUnsortedList secondHalf) {
-		
+		// Else its the recursive case
+		// Choose a pivot/partition element
+
+		// Don't actually choose the first element
+		T pivot = list.removeFirst(); // Take the first element as the pivot point
+
+		// Compare elements to pivot, Smaller to the left, Larger to the right
+		IndexedUnsortedList<T> leftList = newList();
+		IndexedUnsortedList<T> rightList = newList();
+
+		// Gather all the elements from the original list
+		while (!list.isEmpty()) {
+			T element = list.removeFirst();
+
+			// Now using the comparator, take compare the element against the pivot
+			if (c.compare(element, pivot) < 0) {
+				leftList.add(element);
+			}
+			else {
+				rightList.add(element);
+			}
+		}
+
+		// Recursively quickSort the left and right side
+		quicksort(leftList, c);
+		quicksort(rightList, c);
+
+		// Reassemble the list
+		// Take the left list values first
+		while (!leftList.isEmpty()) {
+			list.add(leftList.removeFirst());
+		}
+
+		// Now the pivot
+		list.add(pivot);
+
+		// Now the right list
+		while (!rightList.isEmpty()) {
+			list.add(rightList.removeFirst());
+		}
 	}
 }
